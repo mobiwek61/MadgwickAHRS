@@ -47,6 +47,13 @@ void loop() {
     gy = convertRawGyro(giy);
     gz = convertRawGyro(giz);
 
+    // use these 2 lines if using QMI8658C gyro/accelerometer instead of CurieIMU. 
+    // [updateIMU expects Gyro -250 to + 250 (deg per sec); accel -2 to + 2 (gravity units)]
+    // - scale accelerometer readings
+    /////////  aX = aX / 1000.0; aY = aY / 1000.0; aZ = aZ / 1000.0;
+    // - transform reading by 90 degrees along z axis as below, to account for it's different sensor orientation.
+    ///////// filter.updateIMU(gY, -gX, gZ, aY, -aX, aZ2);
+
     // update the filter, which computes orientation
     filter.updateIMU(gx, gy, gz, ax, ay, az);
 
